@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIDACANDDIDIERCOMPANY</title>
+<style>
+:root {
+  --bg:#080812;
+  --panel:#111121;
+  --panel2:#19182c;
+  --purple:#8b5cf6;
+  --pink:#c084fc;
+  --white:#f7f4ff;
+  --muted:#aaa8c3;
+  --border:#302647;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;color:white;background:var(--panel2);border:1px solid var(--border);padding:11px 15px;border-radius:10px;transition:.2s}
+button:hover{border-color:var(--pink);transform:translateY(-1px)}
+.primary{background:linear-gradient(120deg,#713bea,#a855f7);border:0;font-weight:bold}
+header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding:17px 5%;background:#090912ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.brand{font-weight:900;letter-spacing:1px;font-size:17px}
+.brand span{color:var(--pink)}
+nav{display:flex;gap:7px;flex-wrap:wrap}
+nav button{padding:9px 12px;font-size:13px}
+main{max-width:1200px;margin:auto;padding:25px}
+.hero{text-align:center;padding:100px 12px 90px;background:radial-gradient(ellipse at 50% 25%,#6725a744,transparent 65%)}
+.eyebrow{color:var(--pink);font-size:12px;font-weight:bold;letter-spacing:3px}
+h1{font-size:clamp(40px,7vw,78px);line-height:1.04;margin:22px 0}
+h2{font-size:30px;margin:12px 0 20px}
+h3{margin-top:0}
+p{color:var(--muted);line-height:1.7}
+.hero p{max-width:700px;margin:0 auto 28px}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.controller{width:110px;height:72px;margin:0 auto 20px;color:var(--pink);filter:drop-shadow(0 0 18px #a855f788)}
+section{padding:40px 0;scroll-margin-top:95px}
+.section-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:linear-gradient(145deg,#141326,#0d0d19);border:1px solid var(--border);border-radius:15px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:var(--purple)}
+.cover{height:160px;width:100%;object-fit:cover;display:block;background:#19152c}
+.cover-placeholder{height:160px;display:grid;place-items:center;background:radial-gradient(circle,#39205c,#111121 75%);color:var(--pink);font-size:40px}
+.card-body{padding:17px}
+.card-body p{font-size:14px;min-height:42px}
+.card-actions{display:flex;gap:8px}
+.card-actions button{flex:1}
+.empty{grid-column:1/-1;text-align:center;padding:35px 15px;color:var(--muted);border:1px dashed #574078;border-radius:14px}
+.about{background:linear-gradient(145deg,#141326,#0d0d19);border:1px solid var(--border);border-radius:16px;padding:25px}
+.about h3{color:var(--pink);margin-top:25px}
+footer{text-align:center;padding:35px 15px;border-top:1px solid var(--border)}
+#admin{display:none}
+#admin.visible{display:block}
+#login{display:none;max-width:520px;margin:35px auto;padding:25px;background:linear-gradient(145deg,#141326,#0d0d19);border:1px solid var(--border);border-radius:16px;scroll-margin-top:95px}
+#login .field{margin:14px 0}
+#login .login-error{color:#f87171;min-height:22px;font-size:14px}
+.admin-box{background:var(--panel);border:1px solid var(--border);padding:20px;border-radius:15px;margin:18px 0}
+.notice{padding:13px;border:1px solid #6d512a;background:#241b10;color:#fbd38d;border-radius:10px;font-size:13px;line-height:1.6}
+.admin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.admin-tabs button.active{background:var(--purple);border-color:var(--purple)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.stat{padding:18px;border:1px solid var(--border);border-radius:13px;background:linear-gradient(145deg,#17152a,#0e0e1a)}
+.stat span{font-size:13px;color:var(--muted)}
+.stat strong{display:block;font-size:30px;color:var(--pink);margin-top:9px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:13px;color:var(--muted)}
+.field input,.field textarea,.field select{width:100%;padding:12px;color:white;background:#090912;border:1px solid var(--border);border-radius:9px}
+.field textarea{min-height:90px;resize:vertical}
+.image-paste{min-height:120px;padding:16px;border:2px dashed var(--purple);border-radius:12px;background:#090912;color:var(--muted);cursor:text;outline:none;overflow-wrap:anywhere;display:flex;align-items:center;justify-content:center;text-align:center}
+.image-paste:empty::before{content:attr(data-placeholder);color:var(--muted)}
+.image-paste:focus{border-color:var(--pink)}
+#imagePreview img{display:block;max-width:100%;max-height:220px;object-fit:contain;margin-top:12px;border-radius:10px}
+.image-help{font-size:12px;color:var(--muted);line-height:1.5}
+.form-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.table-wrap{overflow-x:auto;margin:15px 0 25px}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--border)}
+th{color:var(--pink);font-size:13px}
+td{font-size:14px}
+td button{margin:3px;padding:7px 9px;font-size:12px}
+.rank{color:var(--pink);font-weight:bold}
+.hidden{display:none!important}
+@media(max-width:650px){
+  header{align-items:flex-start;flex-direction:column}
+  main{padding:17px}
+  .hero{padding:65px 5px}
+  nav button{font-size:12px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">DIDACAND<span>DIDIER</span>COMPANY</div>
+  <nav>
+    <button data-scroll="inicio">Inicio</button>
+    <button data-scroll="videojuegos">Videojuegos</button>
+    <button data-scroll="webs">Nuestras webs</button>
+    <button data-scroll="ias">IAs</button>
+    <button data-scroll="empresa">Empresa</button>
+    <button data-scroll="admin">Administración</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <svg class="controller" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 20H90C100 20 106 28 110 44L117 62C120 72 108 77 101 70L84 55H36L19 70C12 77 0 72 3 62L10 44C14 28 20 20 30 20Z" stroke="currentColor" stroke-width="4"/>
+      <path d="M29 34V49M21.5 41.5H36.5" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="85" cy="36" r="4" fill="currentColor"/>
+      <circle cx="96" cy="46" r="4" fill="currentColor"/>
+    </svg>
+    <div class="eyebrow">ESTUDIO CREATIVO INDEPENDIENTE</div>
+    <h1>IMAGINAMOS<br><span style="color:var(--pink)">LO IMPOSIBLE.</span></h1>
+    <p>Bienvenido a DIDACANDDIDIERCOMPANY. Descubre nuestros proyectos,
+    explora nuevos mundos y conoce una empresa donde la imaginación
+    se transforma en videojuegos.</p>
+    <div class="hero-actions">
+      <button class="primary" data-scroll="videojuegos">Explorar proyectos</button>
+      <button data-scroll="empresa">Conoce nuestra empresa</button>
+    </div>
+  </section>
+
+  <section id="videojuegos">
+    <div class="section-head">
+      <div><div class="eyebrow">NUESTROS PROYECTOS</div><h2>Videojuegos</h2></div>
+    </div>
+    <div class="grid" id="games"></div>
+  </section>
+
+  <section id="webs">
+    <div class="section-head">
+      <div><div class="eyebrow">NUESTRO UNIVERSO DIGITAL</div><h2>Nuestras webs</h2></div>
+    </div>
+    <div class="grid" id="websites"></div>
+  </section>
+
+  <section id="ias">
+    <div class="section-head">
+      <div><div class="eyebrow">TECNOLOGÍA E INNOVACIÓN</div><h2>Inteligencia artificial</h2></div>
+    </div>
+    <div class="grid" id="ais"></div>
+  </section>
+
+  <section id="empresa">
+    <div class="eyebrow">SOBRE NOSOTROS</div>
+    <h2>Conoce nuestra empresa</h2>
+    <div class="about">
+      <h3>Nuestra imaginación, nuestros videojuegos.</h3>
+      <p>Somos DIDACANDDIDIERCOMPANY, un estudio independiente dedicado a la creación y el desarrollo de videojuegos originales. Nuestro objetivo es transformar ideas creativas en experiencias interactivas llenas de diversión, aventura y desafíos para jugadores de todo tipo.</p>
+      <h3>¿Quiénes somos?</h3>
+      <p>Somos un equipo apasionado por el mundo de los videojuegos, la tecnología y la creatividad. Nos gusta imaginar nuevos mundos, diseñar mecánicas originales y crear proyectos que permitan a los jugadores vivir experiencias diferentes. Para nosotros, cada videojuego es una oportunidad para experimentar, innovar y llevar nuestras ideas un paso más allá.</p>
+      <h3>Nuestros proyectos</h3>
+      <p>Trabajamos en diferentes videojuegos, cada uno con su propia personalidad, estilo y forma de jugar. Entre nuestros proyectos se encuentran Disky, Terraforja, Astronautas Cósmicos, Anime Karts y Fall Ducs. Cada uno nace de una idea diferente y busca ofrecer una experiencia única, desde la exploración y la construcción hasta las carreras y los desafíos multijugador.</p>
+      <h3>Nuestra misión</h3>
+      <p>Nuestra misión es desarrollar videojuegos divertidos, creativos y originales, explorando nuevas posibilidades y mejorando nuestros proyectos continuamente. Queremos que cada juego tenga algo especial y que los jugadores puedan descubrir, experimentar y disfrutar de nuevas aventuras.</p>
+      <h3>Nuestra visión</h3>
+      <p>Queremos seguir creciendo, ampliar nuestro catálogo de videojuegos y construir una comunidad de jugadores que comparta nuestra pasión por el gaming. Apostamos por la innovación, la imaginación y el esfuerzo para convertir nuestras ideas en proyectos cada vez mejores.</p>
+      <h3>Nuestro compromiso</h3>
+      <p>En DIDACANDDIDIERCOMPANY creemos que las grandes ideas empiezan con la imaginación. Por eso, seguimos trabajando para crear videojuegos, probar nuevas propuestas y desarrollar experiencias que puedan sorprender y entretener a nuestros jugadores.</p>
+      <p><strong>DIDACANDDIDIERCOMPANY — Creamos ideas. Desarrollamos mundos. Jugamos diferente.</strong></p>
+    </div>
+  </section>
+
+  <section id="login">
+    <div class="eyebrow">ACCESO PRIVADO</div>
+    <h2>Iniciar sesión</h2>
+    <p>Introduce tus credenciales para acceder al panel de administración.</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Correo electrónico</label>
+        <input id="loginEmail" type="email" autocomplete="username" required placeholder="Tu correo electrónico">
+      </div>
+      <div class="field">
+        <label for="loginPassword">Contraseña</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+      </div>
+      <button class="primary" type="submit">Entrar al panel</button>
+      <p id="loginError" class="login-error" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="admin">
+    <div class="eyebrow">ZONA DE GESTIÓN</div>
+    <h2>Panel de administrador</h2>
+    <div class="notice">
+      Esta versión guarda los proyectos en el navegador actual. Para tener datos
+      compartidos entre visitantes y un panel privado real, necesitarás conectar
+      una base de datos y un sistema de inicio de sesión seguro.
+    </div>
+    <div class="form-actions">
+      <button id="logoutButton" type="button">Cerrar sesión</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Visitas registradas</span><strong id="totalVisits">0</strong></div>
+      <div class="stat"><span>Videojuegos</span><strong id="countGames">0</strong></div>
+      <div class="stat"><span>Páginas web</span><strong id="countWebs">0</strong></div>
+      <div class="stat"><span>IAs</span><strong id="countAis">0</strong></div>
+    </div>
+    <div class="admin-tabs">
+      <button class="active" data-tab="manage">Gestionar proyectos</button>
+      <button data-tab="statistics">Estadísticas y rankings</button>
+    </div>
+    <div id="managePanel">
+      <div class="admin-box">
+        <h3 id="formTitle">Añadir proyecto</h3>
+        <form id="projectForm">
+          <input type="hidden" id="editId">
+          <div class="form-grid">
+            <div class="field">
+              <label for="category">Categoría</label>
+              <select id="category">
+                <option value="games">Videojuego</option>
+                <option value="websites">Página web</option>
+                <option value="ais">Inteligencia artificial</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="name">Nombre</label>
+              <input id="name" required maxlength="80" placeholder="Nombre del proyecto">
+            </div>
+
+            <div class="field" style="grid-column:1/-1">
+              <label>Portada del proyecto</label>
+              <div id="imagePaste" class="image-paste" tabindex="0" role="textbox" aria-label="Pegar imagen de portada" data-placeholder="Haz clic aquí y pulsa Ctrl + V para pegar la imagen"></div>
+              <input id="imageUrl" type="hidden">
+              <div id="imagePreview"></div>
+              <button type="button" id="clearImage">Quitar imagen</button>
+              <small class="image-help">Copia una imagen, haz clic en el recuadro y pulsa Ctrl + V. Máximo 2 MB por imagen.</small>
+            </div>
+
+            <div class="field">
+              <label for="projectUrl">URL del proyecto</label>
+              <input id="projectUrl" type="url" placeholder="https://...">
+            </div>
+            <div class="field" style="grid-column:1/-1">
+              <label for="description">Descripción</label>
+              <textarea id="description" maxlength="500" placeholder="¿De qué trata este proyecto?"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="primary" type="submit">Guardar proyecto</button>
+            <button type="button" id="cancelEdit">Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+      <h3>Proyectos guardados</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Proyecto</th><th>Categoría</th><th>Visitas</th><th>Acciones</th></tr></thead>
+          <tbody id="projectRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="statisticsPanel" class="hidden">
+      <h3>Ranking de videojuegos</h3>
+      <div class="table-wrap"><table><thead><tr><th>Posición</th><th>Proyecto</th><th>Visitas</th></tr></thead><tbody id="rankGames"></tbody></table></div>
+      <h3>Ranking de páginas web</h3>
+      <div class="table-wrap"><table><thead><tr><th>Posición</th><th>Proyecto</th><th>Visitas</th></tr></thead><tbody id="rankWebs"></tbody></table></div>
+      <h3>Ranking de IAs</h3>
+      <div class="table-wrap"><table><thead><tr><th>Posición</th><th>Proyecto</th><th>Visitas</th></tr></thead><tbody id="rankAis"></tbody></table></div>
+      <div class="form-actions">
+        <button class="primary" id="exportStats">Exportar estadísticas CSV</button>
+        <button id="resetStats">Reiniciar visitas</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <strong>DIDACANDDIDIERCOMPANY</strong>
+  <p>Imaginamos lo imposible. Creamos lo inolvidable.</p>
+</footer>
+
+<script>
+const KEY = "ddc_projects_v2";
+const VISITS = "ddc_total_visits_v2";
+const categories = {games:"Videojuego",websites:"Página web",ais:"IA"};
+const $ = id => document.getElementById(id);
+
+function showImagePreview(src){
+  const preview = $("imagePreview");
+  preview.replaceChildren();
+  if(!src) return;
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = "Vista previa de la portada";
+  preview.appendChild(img);
+}
+
+$("imagePaste").addEventListener("paste", event => {
+  const items = Array.from(event.clipboardData?.items || []);
+  const imageItem = items.find(item => item.type.startsWith("image/"));
+  if(!imageItem){
+    event.preventDefault();
+    alert("Copia una imagen (no solo su enlace) y pégala aquí con Ctrl + V.");
+    return;
+  }
+  event.preventDefault();
+  const file = imageItem.getAsFile();
+  if(!file) return;
+  if(file.size > 2 * 1024 * 1024){
+    alert("La imagen pesa más de 2 MB. Reduce su tamaño y vuelve a copiarla.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const data = String(reader.result || "");
+    if(!data.startsWith("data:image/")){
+      alert("No se ha podido reconocer la imagen.");
+      return;
+    }
+    $("imageUrl").value = data;
+    $("imagePaste").textContent = "Imagen pegada correctamente. Pega otra para reemplazarla.";
+    showImagePreview(data);
+  };
+  reader.onerror = () => alert("No se ha podido leer la imagen.");
+  reader.readAsDataURL(file);
+});
+
+$("clearImage").addEventListener("click", () => {
+  $("imageUrl").value = "";
+  $("imagePaste").textContent = "";
+  showImagePreview("");
+});
+
+function loadProjects(){
+  try{
+    const data = JSON.parse(localStorage.getItem(KEY) || "[]");
+    return Array.isArray(data) ? data : [];
+  }catch{return []}
+}
+function saveProjects(data){localStorage.setItem(KEY,JSON.stringify(data))}
+function totalVisits(){return Number(localStorage.getItem(VISITS)||0)}
+function safe(value){
+  return String(value ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function validUrl(value){
+  if(!value)return "";
+  try{
+    const u=new URL(value);
+    return ["https:","http:"].includes(u.protocol)?u.href:"";
+  }catch{return ""}
+}
+
+function renderCategory(category,elementId){
+  const list=loadProjects().filter(p=>p.category===category);
+  const root=$(elementId);
+  if(!list.length){
+    root.innerHTML='<div class="empty">Todavía no hay proyectos en esta categoría.</div>';
+    return;
+  }
+  root.innerHTML=list.map(p=>{
+    const img=(typeof p.image==="string" && p.image.startsWith("data:image/")) ? p.image : validUrl(p.image);
+    return `<article class="card">
+      ${img
+        ?`<img class="cover" src="${safe(img)}" alt="${safe(p.name)}" loading="lazy">`
+        :`<div class="cover-placeholder">✦</div>`}
+      <div class="card-body">
+        <h3>${safe(p.name)}</h3>
+        <p>${safe(p.description||"Descubre este proyecto.")}</p>
+        <div class="card-actions">
+          <button class="primary" data-open="${safe(p.id)}">Abrir proyecto</button>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+function renderAdmin(){
+  const list=loadProjects();
+  $("totalVisits").textContent=totalVisits();
+  $("countGames").textContent=list.filter(p=>p.category==="games").length;
+  $("countWebs").textContent=list.filter(p=>p.category==="websites").length;
+  $("countAis").textContent=list.filter(p=>p.category==="ais").length;
+
+  $("projectRows").innerHTML=list.length?list.map(p=>`
+    <tr>
+      <td>${safe(p.name)}</td>
+      <td>${categories[p.category]||"—"}</td>
+      <td>${Number(p.visits)||0}</td>
+      <td><button data-edit="${safe(p.id)}">Editar</button>
+      <button data-delete="${safe(p.id)}">Eliminar</button></td>
+    </tr>`).join(""):'<tr><td colspan="4">Todavía no has añadido proyectos.</td></tr>';
+
+  for(const category of ["games","websites","ais"]){
+    const ranked=list.filter(p=>p.category===category)
+      .sort((a,b)=>(Number(b.visits)||0)-(Number(a.visits)||0));
+    const target=category==="games"?"rankGames":category==="websites"?"rankWebs":"rankAis";
+    $(target).innerHTML=ranked.length?ranked.map((p,i)=>`
+      <tr><td class="rank">#${i+1}</td><td>${safe(p.name)}</td>
+      <td>${Number(p.visits)||0}</td></tr>`).join("")
+      :'<tr><td colspan="3">Sin proyectos en esta categoría.</td></tr>';
+  }
+}
+function renderAll(){
+  renderCategory("games","games");
+  renderCategory("websites","websites");
+  renderCategory("ais","ais");
+  renderAdmin();
+}
+
+function showLogin(){
+  $("admin").classList.remove("visible");
+  $("admin").style.display="none";
+  $("login").style.display="block";
+  $("loginError").textContent="";
+  $("loginForm").reset();
+  $("login").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function openAdmin(){
+  $("login").style.display="none";
+  $("admin").classList.add("visible");
+  $("admin").style.display="block";
+  $("admin").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+$("loginForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const email=$("loginEmail").value.trim().toLowerCase();
+  const password=$("loginPassword").value;
+  if(email==="didacgarciacorbera@insmollet.cat" && password==="didac2013"){
+    $("loginError").textContent="";
+    openAdmin();
+  }else{
+    $("loginError").textContent="Correo electrónico o contraseña incorrectos.";
+    $("loginPassword").value="";
+    $("loginPassword").focus();
+  }
+});
+
+$("logoutButton").addEventListener("click",()=>{
+  $("admin").classList.remove("visible");
+  $("admin").style.display="none";
+  $("login").style.display="none";
+  $("loginForm").reset();
+  $("inicio").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+document.querySelectorAll("[data-scroll]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const id=button.dataset.scroll;
+    if(id==="admin"){showLogin();return}
+    const target=$(id);
+    if(target)target.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+});
+
+document.querySelectorAll("[data-tab]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+    $("managePanel").classList.toggle("hidden",button.dataset.tab!=="manage");
+    $("statisticsPanel").classList.toggle("hidden",button.dataset.tab!=="statistics");
+  });
+});
+
+function clearForm(){
+  $("projectForm").reset();
+  $("imagePaste").textContent="";
+  $("imageUrl").value="";
+  showImagePreview("");
+  $("editId").value="";
+  $("formTitle").textContent="Añadir proyecto";
+}
+$("cancelEdit").addEventListener("click",clearForm);
+
+$("projectForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const list=loadProjects();
+  const id=$("editId").value;
+  const old=list.find(p=>p.id===id);
+  const image=$("imageUrl").value.trim();
+  const url=$("projectUrl").value.trim();
+
+  if(image && !image.startsWith("data:image/") && !validUrl(image))return alert("Pega una imagen válida en el recuadro de portada.");
+  if(url&&!validUrl(url))return alert("Introduce una URL de proyecto válida.");
+
+  const item={
+    id:old?old.id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())),
+    category:$("category").value,
+    name:$("name").value.trim(),
+    image:image.startsWith("data:image/") ? image : validUrl(image),
+    url:validUrl(url),
+    description:$("description").value.trim(),
+    visits:old?(Number(old.visits)||0):0
+  };
+  if(!item.name)return alert("Escribe el nombre del proyecto.");
+  saveProjects(old?list.map(p=>p.id===id?item:p):[...list,item]);
+  clearForm();
+  renderAll();
+  alert("Proyecto guardado en este navegador.");
+});
+
+document.addEventListener("click",e=>{
+  const open=e.target.closest("[data-open]");
+  if(open){
+    const list=loadProjects();
+    const p=list.find(item=>item.id===open.dataset.open);
+    if(!p)return;
+    p.visits=(Number(p.visits)||0)+1;
+    saveProjects(list);
+    localStorage.setItem(VISITS,String(totalVisits()+1));
+    renderAll();
+    if(p.url)window.open(p.url,"_blank","noopener,noreferrer");
+    else alert("Este proyecto no tiene un enlace. Añádelo desde Administración.");
+    return;
+  }
+
+  const edit=e.target.closest("[data-edit]");
+  if(edit){
+    const p=loadProjects().find(item=>item.id===edit.dataset.edit);
+    if(!p)return;
+    $("editId").value=p.id;
+    $("category").value=p.category;
+    $("name").value=p.name;
+    $("imageUrl").value=p.image||"";
+    $("imagePaste").textContent=p.image ? "Portada cargada. Pega otra imagen para reemplazarla." : "";
+    showImagePreview(p.image||"");
+    $("projectUrl").value=p.url||"";
+    $("description").value=p.description||"";
+    $("formTitle").textContent="Editar proyecto";
+    $("managePanel").scrollIntoView({behavior:"smooth"});
+    return;
+  }
+
+  const del=e.target.closest("[data-delete]");
+  if(del){
+    const list=loadProjects();
+    const p=list.find(item=>item.id===del.dataset.delete);
+    if(!p||!confirm(`¿Eliminar "${p.name}"?`))return;
+    saveProjects(list.filter(item=>item.id!==p.id));
+    renderAll();
+  }
+});
+
+$("exportStats").addEventListener("click",()=>{
+  const rows=[["Nombre","Categoría","Visitas"],
+    ...loadProjects().map(p=>[p.name,categories[p.category],Number(p.visits)||0])];
+  const csv=rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\r\n");
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="estadisticas-ddc.csv";a.click();
+  URL.revokeObjectURL(url);
+});
+
+$("resetStats").addEventListener("click",()=>{
+  if(!confirm("¿Quieres reiniciar todas las visitas?"))return;
+  saveProjects(loadProjects().map(p=>({...p,visits:0})));
+  localStorage.setItem(VISITS,"0");
+  renderAll();
+});
+
+renderAll();
+</script>
+</body>
+</html>
